@@ -1,5 +1,6 @@
 flimMean <-
-function(flimobject, response, grouping=NULL) {
+function(flimobject, response=NULL, grouping=NULL) {
+  if(is.null(response)) response <- flimobject$info$responses[1]
   data <- flimobject$df
   data.obs <- flimobject$clean
   data.obs <- data.obs[data.obs[, 2] <=  max(flimobject$times), ]

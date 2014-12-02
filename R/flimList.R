@@ -48,6 +48,7 @@ function(fo) {
     }
     retme <- list(flim.obj = fo,
                   est.list = est.list,
+                  #sum.list = sum.list,
                   models = models)
     class(retme) <- "flimList"
     retme

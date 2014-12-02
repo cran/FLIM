@@ -1,7 +1,8 @@
 plot.flim <-
-function(x, response, grouping=NULL, ylim=NULL, col=NULL, naive=T,
+function(x, response=NULL, grouping=NULL, ylim=NULL, col=NULL, naive=T,
                       lty=1:2, ptype="mean", ylab="Response", xlab="Times", ...)
   {
+  if(is.null(response)) response <- x$info$responses[1]
   if(ptype=="mean"){
     dataset <- x$df
     times <- x$times

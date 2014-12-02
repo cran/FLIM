@@ -7,7 +7,8 @@
 \description{\code{flim} is the main function in \code{\link{FLIM}} and is used to fit linear models for the observed increments and fill in missing values in a longitudinal dataset according to the linear increments model. The end result is a list of fitted models and a hypothetical complete dataset that can be used for further analysis.
 }
 \usage{
-flim(formula, data, id, obstime, t.values = NULL, method = "locf", lambda = NULL)
+flim(formula, data, id, obstime, t.values = NULL, method = "locf", lambda = NULL,
+art.cens = NULL)
 
 \method{print}{flim}(x, ...)
 \method{summary}{flim}(object, ...)
@@ -42,6 +43,9 @@ flim(formula, data, id, obstime, t.values = NULL, method = "locf", lambda = NULL
 }
   \item{lambda}{ridge parameter for doing ridge regression in the linear fits, default is OLS.
 %%     ~~Describe \code{lambda} here~~
+}
+  \item{art.cens}{used to specify a 0-1 factor variable, for which artificial censoring is performed to response values for all subjects after the first switch from 0 to 1. Missing values will then be imputed as if subjects never made the switch. This is intended for advanced users and does not come with readily available tools for investigating results. Original dataset with added columns for counterfactual response values is stored in fitted object.
+%%     ~~Describe \code{art.cens} here~~
 }
 \item{x}{object of class \code{"flim"}}
 \item{object}{object of class \code{"flim"}}
@@ -92,5 +96,11 @@ summary(flimList(panss.flim))
 panss.boot <- flimboot(panss.flim, 20)
 flimSD(panss.boot,"Y","treat")
 plot(panss.boot, "Y", "treat")
+
+# Imputing counterfactual CD4 values as if treatment never started
+data(CD4sim)
+CD4.flim <- flim(cd4 ~ cd4, id="id", obstime="time", data=CD4sim,
+             art.cens="treat")
+# CD4.flim$dataset has added column for counterfactual values             
 }
 
